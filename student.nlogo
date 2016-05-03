@@ -1,28 +1,117 @@
-turtles-own [group strategy]
+turtles-own [group strategy mark]
+globals [courselength]
 to setup
     clear-all
+    reset-ticks
+    random-seed 641
+    set courselength 30
     setup-turtles
-    random-seed 137
+    plot-student
 end
 
 to go
+  if ticks >= 10000 [ stop ]
   form-group
+  if (ticks mod courselength) = 0 [
+    give-mark
+  ]
+  if (ticks mod 2 * courselength) = 0 [
+    rethink
+  ]
+  tick
+  plot-student
+end
 
+to give-mark
+  ask turtles [
+    let current group
+    let effort sum [strategy] of turtles with [group = current]
+    let tempcount count turtles with [group = current]
+    let tempmark (effort / tempcount)
+    set mark tempmark
+    ]
 end
 
 to form-group
-  ask turtles [ set group random 10 ]
-  ask turtles [ set strategy random 2 ]
-  foreach [0 1 2 3 4 5 6 7 8 9 10] [
-    ask turtles with [group = ?] [
-      set color ? * 10 + 5
+  ask turtles[
+    if strategy = high [
+      set color green
     ]
+    if strategy = 1 - high [
+      set color red
+    ]
+    face get-home
+    lt random 1
+    rt random 1
+    fd 2
+  ]
+  if (ticks mod courselength) = 0 [
+    ask turtles [ set group random groupnumber ]
   ]
 end
 
 to setup-turtles
-      create-turtles number
+      create-turtles population
       ask turtles [ setxy random-xcor random-ycor ]
+      ask turtles [ set group random groupnumber ]
+      ask turtles [
+        let temp random 2
+        if temp = 0 [
+          set strategy high
+          set color green
+        ]
+        if temp = 1 [
+          set strategy 1 - high
+          set color red
+        ]
+      ]
+end
+
+to-report get-home ;; turtle procedure
+  ;; calculate the minimum length of each side of our grid
+  let side ceiling (sqrt (max [group] of turtles + 1))
+
+  report patch
+           ;; compute the x coordinate
+           (round ((world-width / side) * (group mod side)
+             + min-pxcor + int (world-width / (side * 2))))
+           ;; compute the y coordinate
+           (round ((world-height / side) * int (group / side)
+             + min-pycor + int (world-height / (side * 2))))
+end
+
+to rethink
+  ask turtles [
+    let measure1 mark - a * strategy
+    let measure2 0
+    let temps 0
+    let diff 0
+    ask one-of other turtles [
+      set measure2 mark - a * strategy
+      set temps strategy
+    ]
+    ;;if measure1 > measure2 [ ]
+    if measure1 < measure2 [
+      set diff measure2 - measure1
+      if random-float 1 < diff [
+        set strategy temps
+        ]
+      ]
+  ]
+end
+
+to plot-student
+  set-current-plot "good student vs. bad student"
+  if (ticks mod courselength) = 0 [
+    set-current-plot-pen "good"
+    plot count turtles with [strategy = high]
+    set-current-plot-pen "bad"
+    plot count turtles with [strategy = 1 - high]
+  ]
+  set-current-plot "histogram of group"
+  set-current-plot-pen "hist"
+  set-histogram-num-bars groupnumber
+  histogram [group] of turtles
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
@@ -53,10 +142,10 @@ ticks
 30.0
 
 BUTTON
-120
-43
-189
-80
+98
+10
+167
+47
 NIL
 setup\n
 NIL
@@ -70,13 +159,13 @@ NIL
 1
 
 BUTTON
-38
-45
-107
-93
+9
+10
+78
+48
 NIL
 go
-NIL
+T
 1
 T
 OBSERVER
@@ -86,20 +175,90 @@ NIL
 NIL
 1
 
-SLIDER
-20
-116
-192
-149
-number
-number
+INPUTBOX
+1
+90
+99
+150
+groupnumber
+11
+1
 0
-500
-220
-20
+Number
+
+INPUTBOX
+107
+90
+202
+150
+population
+200
+1
+0
+Number
+
+SLIDER
+12
+52
+184
+85
+high
+high
+0
+1
+0.1
+0.1
 1
 NIL
 HORIZONTAL
+
+INPUTBOX
+1
+167
+100
+227
+a
+0.09
+1
+0
+Number
+
+PLOT
+4
+231
+204
+381
+good student vs. bad student
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"good" 1.0 0 -13840069 true "" ""
+"bad" 1.0 0 -2674135 true "" ""
+
+PLOT
+6
+388
+206
+508
+histogram of group
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"hist" 1.0 1 -16777216 true "" ""
 
 @#$#@#$#@
 ## WHAT IS IT?
