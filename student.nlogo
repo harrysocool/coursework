@@ -1,22 +1,26 @@
-turtles-own [group strategy mark]
-globals [courselength]
+turtles-own [group strategy mark hard]
+globals [courselength h_population temp_h_density1]
 to setup
     clear-all
     reset-ticks
     random-seed 641
-    set courselength 30
+    set courselength 20
+    set h_population (population * h_density)
+    set temp_h_density1 h_density
     setup-turtles
     plot-student
 end
 
 to go
-  if ticks >= 10000 [ stop ]
   form-group
+  if ticks >= (study_course_number * courselength)  [ stop ]
+  if ((count turtles with [hard = 1]) = 0) [stop]
+  if ((count turtles with [hard = 0]) = 0) [stop]
   if (ticks mod courselength) = 0 [
+    math-model
     give-mark
-  ]
-  if (ticks mod 2 * courselength) = 0 [
     rethink
+    ask turtles [ set group random groupnumber ]
   ]
   tick
   plot-student
@@ -34,19 +38,16 @@ end
 
 to form-group
   ask turtles[
-    if strategy = high [
+    if hard = 1 [
       set color green
     ]
-    if strategy = 1 - high [
+    if hard = 0 [
       set color red
     ]
     face get-home
     lt random 1
     rt random 1
     fd 2
-  ]
-  if (ticks mod courselength) = 0 [
-    ask turtles [ set group random groupnumber ]
   ]
 end
 
@@ -55,14 +56,15 @@ to setup-turtles
       ask turtles [ setxy random-xcor random-ycor ]
       ask turtles [ set group random groupnumber ]
       ask turtles [
-        let temp random 2
-        if temp = 0 [
+        set shape "person"
+        set hard 0
+        set strategy 1 - high
+        set color red
+        let temp random-float 1
+        if (temp <= h_density) [
           set strategy high
+          set hard 1
           set color green
-        ]
-        if temp = 1 [
-          set strategy 1 - high
-          set color red
         ]
       ]
 end
@@ -85,43 +87,62 @@ to rethink
     let measure1 mark - a * strategy
     let measure2 0
     let temps 0
+    let temph 0
     let diff 0
     ask one-of other turtles [
       set measure2 mark - a * strategy
       set temps strategy
+      set temph hard
     ]
     ;;if measure1 > measure2 [ ]
     if measure1 < measure2 [
       set diff measure2 - measure1
       if random-float 1 < diff [
         set strategy temps
+        set hard temph
         ]
       ]
   ]
 end
 
 to plot-student
-  set-current-plot "good student vs. bad student"
+  set-current-plot "hard student vs. lazy student"
   if (ticks mod courselength) = 0 [
-    set-current-plot-pen "good"
-    plot count turtles with [strategy = high]
-    set-current-plot-pen "bad"
-    plot count turtles with [strategy = 1 - high]
+    if ((ticks / courselength) != 0) [
+      set-plot-x-range 0 (ticks / courselength)
+    ]
+    set-current-plot-pen "h"
+    plot count turtles with [hard = 1]
+    set-current-plot-pen "l"
+    plot count turtles with [hard = 0]
+    set-current-plot-pen "h_math"
+    plot h_population
+    set-current-plot-pen "l_math"
+    plot (population - h_population)
   ]
-  set-current-plot "histogram of group"
+  set-current-plot "population histogram of each group"
   set-current-plot-pen "hist"
-  set-histogram-num-bars groupnumber
+  set-plot-x-range 0 groupnumber
   histogram [group] of turtles
+end
+
+to math-model
+  let temp_h_density2 0
+  let slope 0
+  set slope (a * (1 - high - high) * (temp_h_density1 - temp_h_density1 ^ 2))
+  set temp_h_density2 (temp_h_density1 + 1 * slope)
+  set h_population (population * temp_h_density2)
+  set temp_h_density1 temp_h_density2
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
-210
+353
 10
-649
-470
+854
+532
 16
 16
-13.0
+14.9
 1
 10
 1
@@ -159,9 +180,9 @@ NIL
 1
 
 BUTTON
-9
+17
 10
-78
+86
 48
 NIL
 go
@@ -176,21 +197,21 @@ NIL
 1
 
 INPUTBOX
-1
-90
-99
-150
+110
+96
+189
+156
 groupnumber
-11
+10
 1
 0
 Number
 
 INPUTBOX
-107
-90
-202
-150
+195
+96
+264
+156
 population
 200
 1
@@ -198,10 +219,10 @@ population
 Number
 
 SLIDER
-12
-52
-184
-85
+17
+55
+187
+88
 high
 high
 0
@@ -213,24 +234,24 @@ NIL
 HORIZONTAL
 
 INPUTBOX
-1
-167
-100
-227
+272
+96
+346
+156
 a
-0.09
+0.5
 1
 0
 Number
 
 PLOT
-4
-231
-204
-381
-good student vs. bad student
-NIL
-NIL
+18
+286
+348
+436
+hard student vs. lazy student
+courses count
+population
 0.0
 10.0
 0.0
@@ -239,17 +260,19 @@ true
 false
 "" ""
 PENS
-"good" 1.0 0 -13840069 true "" ""
-"bad" 1.0 0 -2674135 true "" ""
+"h" 1.0 0 -15040220 true "" ""
+"l" 1.0 0 -8053223 true "" ""
+"h_math" 1.0 0 -8330359 true "" ""
+"l_math" 1.0 0 -1604481 true "" ""
 
 PLOT
-6
-388
-206
-508
-histogram of group
-NIL
-NIL
+17
+160
+347
+280
+population histogram of each group
+group numbers
+population
 0.0
 10.0
 0.0
@@ -259,6 +282,72 @@ false
 "" ""
 PENS
 "hist" 1.0 1 -16777216 true "" ""
+
+INPUTBOX
+18
+96
+104
+156
+h_density
+0.5
+1
+0
+Number
+
+MONITOR
+18
+441
+172
+486
+hard student population
+count turtles with [hard = 1]
+17
+1
+11
+
+MONITOR
+18
+491
+172
+536
+lazy student population
+count turtles with [hard = 0]
+17
+1
+11
+
+INPUTBOX
+193
+26
+346
+86
+study_course_number
+800
+1
+0
+Number
+
+MONITOR
+177
+441
+349
+486
+hard student math-model
+h_population
+17
+1
+11
+
+MONITOR
+177
+491
+350
+536
+lazy student math-model
+population - h_population
+17
+1
+11
 
 @#$#@#$#@
 ## WHAT IS IT?

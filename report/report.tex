@@ -1,0 +1,135 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Structured General Purpose Assignment
+% LaTeX Template
+%
+% This template has been downloaded from:
+% http://www.latextemplates.com
+%
+% Original author:
+% Ted Pavlic (http://www.tedpavlic.com)
+%
+% Note:
+% The \lipsum[#] commands throughout this template generate dummy text
+% to fill the template out. These commands should all be removed when 
+% writing assignment content.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[a4paper, 12pt]{article}
+
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{graphicx} % Required to insert images
+\usepackage{indentfirst} % Required to indent the first paragraph
+\usepackage[nottoc,numbib]{tocbibind} % Required to show the bibliography in the content
+\usepackage[disable]{todonotes} % todo notes
+\usepackage{enumitem}
+\usepackage[bottom=1.2in,top=1.2in]{geometry} % Margins
+\usepackage{setspace}
+\usepackage{titlesec} % section title space 
+\usepackage[font=small]{caption}
+
+% Margins
+% \topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+% \textheight=9.0in
+\headheight=15pt
+
+
+\linespread{1.1} % Line spacing
+
+\titlespacing*{\section}
+{0pt}{10pt}{10pt}
+\titlespacing*{\subsection}
+{0pt}{5pt}{10pt}
+
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{} % Top left header
+\chead{\hmwkClass: \hmwkTitle} % Top center header
+\rhead{} % Top right header
+\lfoot{} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Page\ \thepage\ of\ \pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+% rewrite the first head style
+\fancypagestyle{firststyle}
+{
+	\renewcommand\headrulewidth{0pt}%
+	\renewcommand\footrulewidth{0pt}
+   \fancyhf{}
+   \fancyhead[L]{
+   \noindent
+	\begin{flushleft}
+		\textit{School of Electronics and Computer Science} \\ % Your university, school and/or department name(s)
+		\textit{University of Southampton}
+	\end{flushleft}
+   }
+}
+
+% \setlength\parindent{16pt} % Removes all indentation from paragraphs
+
+%----------------------------------------------------------------------------------------
+%	NAME AND CLASS SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\hmwkTitle}{Report on Coursework Assignment II} % Assignment title
+\newcommand{\hmwkDueDate}{Friday,\ May\ 13,\ 2016} % Due date
+\newcommand{\hmwkClass}{COMP6216} % Course/class
+\newcommand{\hmwkClassInstructor}{Dr. Markus Brede
+} % Teacher/lecturer
+\newcommand{\hmwkGroupName}{} % Your Group name
+\newcommand{\hmwkGoupMemberI}{Li Sun\\ 27536432\\ ls2u14@soton.ac.uk} % Your Group member
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%---------------------------------------------------------------------------------------- 
+
+\title{
+\vspace{2.5in}
+\textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+\normalsize\vspace{0.1in}\small{Worth: 70\%}\\
+\normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate}\\
+\vspace{0.1in}\large{\textit{\hmwkClassInstructor\ }}\\
+\vspace{2.5in}
+}
+\author{\hmwkGoupMemberI
+}
+\date{} % Insert date here if you want it to appear below your name
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+\maketitle
+\thispagestyle{firststyle}
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS
+%----------------------------------------------------------------------------------------
+
+% \setcounter{tocdepth}{1} % Uncomment this line if you don't want subsections listed in the ToC
+
+\newpage
+\tableofcontents
+\thispagestyle{empty}
+\newpage
+%----------------------------------------------------------------------------------------
+%	MAIN PART
+%----------------------------------------------------------------------------------------
+\clearpage
+\setcounter{page}{1}
+\section{Introduction}
+
+
+
+\end{document}
