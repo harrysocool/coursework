@@ -227,7 +227,7 @@ high
 high
 0
 1
-0.1
+0.7
 0.1
 1
 NIL
@@ -239,7 +239,7 @@ INPUTBOX
 346
 156
 a
-0.5
+0.1
 1
 0
 Number
@@ -289,7 +289,7 @@ INPUTBOX
 104
 156
 h_density
-0.5
+0.2
 1
 0
 Number
