@@ -52,22 +52,33 @@ to form-group
 end
 
 to setup-turtles
-      create-turtles population
-      ask turtles [ setxy random-xcor random-ycor ]
-      ask turtles [ set group random groupnumber ]
-      ask turtles [
+      create-turtles (population * h_density) [
+        set shape "person"
+        set hard 1
+        set strategy high
+        set color green
+      ]
+      create-turtles (population * (1 - h_density)) [
         set shape "person"
         set hard 0
         set strategy 1 - high
         set color red
-        let temp random-float 1
-        if (temp <= h_density) [
-          set strategy high
-          set hard 1
-          set color green
-        ]
       ]
+      ask turtles [ setxy random-xcor random-ycor ]
+      ask turtles [ set group random groupnumber ]
 end
+;      ask turtles [
+;        set shape "person"
+;        set hard 0
+;        set strategy 1 - high
+;        set color red
+;        let temp random-float 1
+;        if (temp <= h_density) [
+;          set strategy high
+;          set hard 1
+;          set color green
+;        ]
+;      ]
 
 to-report get-home ;; turtle procedure
   ;; calculate the minimum length of each side of our grid
@@ -163,10 +174,10 @@ ticks
 30.0
 
 BUTTON
-98
+119
 10
-167
-47
+188
+48
 NIL
 setup\n
 NIL
@@ -180,9 +191,9 @@ NIL
 1
 
 BUTTON
-17
+18
 10
-86
+87
 48
 NIL
 go
@@ -227,7 +238,7 @@ high
 high
 0
 1
-0.7
+0.6
 0.1
 1
 NIL
@@ -239,7 +250,7 @@ INPUTBOX
 346
 156
 a
-0.1
+0.5
 1
 0
 Number
@@ -289,7 +300,7 @@ INPUTBOX
 104
 156
 h_density
-0.2
+0.5
 1
 0
 Number
@@ -348,6 +359,16 @@ population - h_population
 17
 1
 11
+
+TEXTBOX
+364
+35
+775
+113
+RED: lazy student with strategy L\nGREEN: hard work student ith strategy H
+12
+39.9
+1
 
 @#$#@#$#@
 ## WHAT IS IT?

@@ -22,6 +22,7 @@
 \documentclass[a4paper, 12pt]{article}
 
 \usepackage{fancyhdr} % Required for custom headers
+\usepackage{amsmath}
 \usepackage{lastpage} % Required to determine the last page for the footer
 \usepackage{extramarks} % Required for headers and footers
 \usepackage{graphicx} % Required to insert images
@@ -129,7 +130,107 @@
 \clearpage
 \setcounter{page}{1}
 \section{Introduction}
+This report is about solving a modeling problem by using both agent based model and differential equation based approach. The problem is called ``Group Dynamics of Hard Workers and Lazy Workers'', it is described in the section below.
 
+\subsection{Problem Description}
+In one university, all the students is working on group projects for every courses, they randomly form into groups and regroup after finish projects then prepare for next course:
+\begin{enumerate}[nolistsep]
+	\item Student can follow two strategies $(S)$ in the beginning : work hard $(S = H)$ or lazy $(S = L)$.
+	\item The effort $(e)$ of the group is the sum of the strategies for all group members $(n)$.
+	\item When course finished, each group member gets the same mark $(m)$ as $m = e/n$.
+	\item Then every student rethink his strategy by randomly select another student and comparing a measure $(\pi)$ based on $\pi = m - a*S$. If he had a lower $\pi$ than the another student, he will imitate the another student's strategy $S$ with a probability proportional to the difference in measures $\pi$, otherwise stay the same strategy.
+\end{enumerate}
+If all the students take courses forever and follow the same procedure above, then we have a dynamic model of hard and lazy students working in groups. 
+\par The research question is to assess how these parameters below affect the results, such as how long it takes to reach equilibrium state.
+\begin{itemize}[nolistsep]
+	\item Initial composition of the population
+	\item Group size $(n)$
+	\item Cost of effort $a$
+	\item Contribution of hard workers to group effort ($H\ and\ L$)
+\end{itemize}
+
+\section{Analytical Solution}
+This section mainly include how to develop a model based on differential equations addressing this problem, and also explored the equilibrium solutions and its stability. Then, try to mathematically solve the differential equation by integration.
+\subsection{Differential Equations}
+As it described in the section above, there is only one variable needed for this particular problem which is the population with strategy H or L, we use the density $\zeta_{H}$ to represents the portion of H's population, therefore the density of L's population will be $1-\zeta_{L}$.
+\par For the evolution of $\zeta_{H}$, certain rule is needed. lets say we have a population of u agents $\{\zeta_{i}\}_{i=1}^{u}$ in which each agents makes payoff $\pi_{i}$ and agents evolve according to the update rule below:
+\vspace{-3mm}
+\begin{equation}
+\begin{split}
+	\dot\zeta_{i} & = \zeta_{i} \Big\{-\sum_{j,\pi_{j}>\pi_{i}^{}}\zeta_{j}(\pi_{j}-\pi_{i}) + \sum_{j,\pi_{i}>\pi_{j}^{}}\zeta_{j}(\pi_{i}-\pi_{j}) \Big\} \\
+	& = \zeta_{i}\sum_{j}\zeta_{j}(\pi_{i}-\pi_{j}) \\
+	& = \zeta_{i}(\pi_{i}\sum_{j}\zeta_{j} - \sum_{j}\zeta_{j}\pi_{j}) \quad where \sum_{j}\zeta_{j}=1\ and\ \sum_{j}\zeta_{j}\pi_{j}=\bar{\pi} \\
+	& = \zeta_{i}(\pi_{i} - \bar{\pi})
+\end{split}
+\end{equation}
+In our problem, the $\bar{\pi}$ can be obtained as the equation (2) below:
+\vspace{-3mm}
+\begin{equation}
+\begin{split}
+	\bar{\pi} & = \zeta_{H}\pi_{H}+ \zeta_{L}\pi_{L} \\
+	& = \zeta_{H}\pi_{H}+ (1 - \zeta_{H})\pi_{L} \\
+	& = \zeta_{H}(\pi_{H}-\pi_{L})+\pi_{L}
+\end{split}		
+\end{equation}
+Next, we substitute the equation (2) into (1) given:
+\vspace{-3mm}
+\begin{equation}
+\begin{split}
+	\dot\zeta_{H} & = \zeta_{H}\{\pi_{H} - (\zeta_{H}(\pi_{H}-\pi_{L})+\pi_{L})\} \\
+	& = \zeta_{H}\{\pi_{H}-\pi_{L}-\zeta_{H}(\pi_{H}-\pi_{L}) \} \\
+	& = \zeta_{H}(\pi_{H}-\pi_{L})(1-\zeta_{H})
+\end{split}
+\end{equation}
+The equation above can still be simplified by the function below as it described in the problem: 
+\vspace{-3mm}
+\begin{equation}
+\begin{split}
+	\pi_{H} - \pi_{L} & =  (m - a*H)-(m-a*L) \\
+	& = a(L - H)
+\end{split}		
+\end{equation}
+Finally, the differential equation for the problem is obtained as this function below:
+\vspace{-3mm}
+\begin{equation}
+	\dot\zeta_{H} = a(L-H)(\zeta_{H}-\zeta_{H}^{2})
+\end{equation}
+
+\subsection{Analyses System Behavior}
+\subsection{Integration}
+\begin{equation}
+\begin{split}
+	\int_{\zeta_{0}}^{\zeta} \frac{d\zeta}{\zeta(1-\zeta)} &= \int_{t_{0}}^{t} a(L-H)dt \\
+	\int_{\zeta_{0}}^{\zeta} \frac{(1-\zeta)+\zeta}{\zeta(1-\zeta)}d\zeta & = a(L-H)t \\
+	\int_{\zeta_{0}}^{\zeta} (\frac{1}{\zeta} + \frac{1}{1-\zeta})d\zeta &= a(L-H)t \\
+	ln\frac{\zeta}{\zeta_{0}} + ln\frac{1-\zeta_{0}}{1-\zeta} & = a(L-H)t \\
+	ln\frac{\zeta/(1-\zeta)}{\zeta_{0}/(1-\zeta_{0})} & = a(L-H)t \\
+	\frac{\zeta/(1-\zeta)}{\zeta_{0}/(1-\zeta_{0})} & = e^{a(L-H)t} \\
+	\frac{\zeta}{1-\zeta} & = \frac{\zeta_{0}}{1-\zeta_{0}}e^{a(L-H)t} \\
+\end{split}
+\end{equation}
+We replace the RHS in equation (6) as $A$, then the function obtained can be derived as:
+\begin{equation}
+\begin{split}
+	\frac{\zeta}{1-\zeta} &= A \\
+	\zeta & = A (1-\zeta) \\
+	\zeta (1+A) & = A \\
+	\zeta & = \frac{A}{1-A} \\
+	\zeta & = \frac{1}{1 - \frac{1}{A}}
+\end{split}
+\end{equation}
+Then, we substitute the $A$ into equation (7):
+\begin{equation}
+\begin{split}
+	\zeta &= \frac{1}{1-\frac{1}{\frac{\zeta_{0}}{1-\zeta_{0}}e^{a(L-H)t}}} \\
+	\zeta &= \frac{1}{1-\frac{1-\zeta_{0}}{\zeta_{0}}\frac{1}{e^{a(L-H)t}}} \\
+	\zeta &= \frac{1}{1-\frac{1-\zeta_{0}}{\zeta_{0}}e^{a(H-L)t}}
+\end{split}
+\end{equation}
+
+\section{Program Implementation}
+\subsection{Numerically Integration}
+\subsection{Agent-based Model}
+\section{Comparison}
 
 
 \end{document}
