@@ -195,8 +195,49 @@ Finally, the differential equation for the problem is obtained as this function 
 	\dot\zeta_{H} = a(L-H)(\zeta_{H}-\zeta_{H}^{2})
 \end{equation}
 
+\subsection{Classification}
+
+
 \subsection{Analyses System Behavior}
+In order to analyses the stability of the above differential equation, we need to differentiate it based on $\zeta_{H}$ as below:
+\vspace{-3mm}
+\begin{equation}
+\begin{split}
+	f(\zeta_{H}) &= a(L-H)(\zeta_{H}-\zeta_{H}^{2}) \\
+	\frac{df}{d\zeta_{H}} &= a(L-H)(1-2\zeta_{H})
+\end{split}		
+\end{equation}
+Then, we apply the stable state of the $\zeta_{H}$ as $\zeta_{H}^{*} = 0\ and\ 1$ to get the system behavior.
+\begin{equation}
+\begin{split}
+	&\frac{df}{d\zeta_{H}}|_{\zeta_{H}^{*} = 0}=a(L-H)\\
+	due\ to\ a>0,\ & stable\ if\ L<H,\ unstable\ if\ L>H \\
+\end{split}
+\end{equation}
+\begin{equation}
+\begin{split}
+	&\frac{df}{d\zeta_{H}}|_{\zeta_{H}^{*} = 1}=-a(L-H)\\
+	due\ to\ a>0,\ & stable\ if\ L>H,\ unstable\ if\ L<H \\
+\end{split}
+\end{equation}
+Therefore, the behavior of the system depends on the relationship between L and H.
+\begin{equation}
+\begin{split}
+	&if\ L>H:\qquad population\ dominated\ by\ all\ H's \\
+	&if\ H>L:\qquad population\ dominated\ by\ all\ L's \\ 
+\end{split}
+\end{equation}
 \subsection{Integration}
+In this section, we aim to get the solution by integrate the differential equation. Firstly, we rewrite the equation (5) as below:
+\vspace{-3mm}
+\begin{equation}
+\begin{split}
+	\frac{d \zeta}{dt} &= a(L-H)( \zeta - \zeta^{2}) \\
+	\frac{d \zeta}{\zeta-\zeta^{2}}&=a(L-H)dt
+\end{split}
+\end{equation}
+Then we apply integration method on both sides with different conditions to get:
+\vspace{-3mm}
 \begin{equation}
 \begin{split}
 	\int_{\zeta_{0}}^{\zeta} \frac{d\zeta}{\zeta(1-\zeta)} &= \int_{t_{0}}^{t} a(L-H)dt \\
@@ -214,23 +255,39 @@ We replace the RHS in equation (6) as $A$, then the function obtained can be der
 	\frac{\zeta}{1-\zeta} &= A \\
 	\zeta & = A (1-\zeta) \\
 	\zeta (1+A) & = A \\
-	\zeta & = \frac{A}{1-A} \\
-	\zeta & = \frac{1}{1 - \frac{1}{A}}
+	\zeta & = \frac{A}{1+A} \\
+	\zeta & = \frac{1}{1 + \frac{1}{A}}
 \end{split}
 \end{equation}
 Then, we substitute the $A$ into equation (7):
 \begin{equation}
 \begin{split}
-	\zeta &= \frac{1}{1-\frac{1}{\frac{\zeta_{0}}{1-\zeta_{0}}e^{a(L-H)t}}} \\
-	\zeta &= \frac{1}{1-\frac{1-\zeta_{0}}{\zeta_{0}}\frac{1}{e^{a(L-H)t}}} \\
-	\zeta &= \frac{1}{1-\frac{1-\zeta_{0}}{\zeta_{0}}e^{a(H-L)t}}
+	\zeta &= \frac{1}{1+\frac{1}{\frac{\zeta_{0}}{1-\zeta_{0}}e^{a(L-H)t}}} \\
+	\zeta &= \frac{1}{1+\frac{1-\zeta_{0}}{\zeta_{0}}\frac{1}{e^{a(L-H)t}}} \\
+	\zeta &= \frac{1}{1+\frac{1-\zeta_{0}}{\zeta_{0}}e^{a(H-L)t}}
 \end{split}
 \end{equation}
-
+Finally, the analytical solution for the differential equation is obtained as above, it applies to both H and L with their initial variables.
 \section{Program Implementation}
-\subsection{Numerically Integration}
+This section described how to use computer code for modeling the specific student problem, two methods were used to design this system. 
+\subsection{Numerical Integration}
+We use Euler's method to numerically solve the integration. By setting the time of every course to be 1, the equation can be written as:
+\vspace{-3mm}
+\begin{equation}
+\begin{split}
+	\frac{\zeta_{H}^{n+1}-\zeta_{H}^{n}}{t^{n+1}-t^{n}} & = a(L-H)( \zeta_{H}^{n} - (\zeta_{H}^{n})^{2}) \\
+	\zeta_{H}^{n+1} &=  a(L-H)( \zeta_{H}^{n} - (\zeta_{H}^{n})^{2}) + \zeta_{H}^{n}
+\end{split}
+\end{equation}
+Therefore, the density of $H$ can be iteratively calculated by equation (14) above until it converged into 1 or 0. The essential code is listed as below:
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=6in]{./figures/code1}
+  \caption{Essential code for numerical integration}
+  \label{integrate}
+\end{figure}
+
 \subsection{Agent-based Model}
 \section{Comparison}
-
 
 \end{document}
