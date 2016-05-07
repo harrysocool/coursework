@@ -271,7 +271,7 @@ Finally, the analytical solution for the differential equation is obtained as ab
 \section{Program Implementation}
 This section described how to use computer code for modeling the specific student problem, two methods were used to design this system. 
 \subsection{Numerical Integration}
-We use Euler's method to numerically solve the integration. By setting the time of every course to be 1, the equation can be written as:
+We use both Euler and Runge–Kutta's method to numerically solve the integration. By setting the time of every course to be 1, the Euler's equation can be written as:
 \vspace{-3mm}
 \begin{equation}
 \begin{split}
@@ -279,15 +279,24 @@ We use Euler's method to numerically solve the integration. By setting the time 
 	\zeta_{H}^{n+1} &=  a(L-H)( \zeta_{H}^{n} - (\zeta_{H}^{n})^{2}) + \zeta_{H}^{n}
 \end{split}
 \end{equation}
-Therefore, the density of $H$ can be iteratively calculated by equation (14) above until it converged into 1 or 0. The essential code is listed as below:
+Therefore, the density of $H$ can be iteratively calculated by equation (14) above until it converged into 1 or 0. The essential code for both methods are listed as figure 1 below:
 \begin{figure}[!h]
   \centering
-  \includegraphics[width=6in]{./figures/code1}
-  \caption{Essential code for numerical integration}
+  \includegraphics[width=6in]{./figures/code}
+  \caption{\footnotesize Essential code for numerical integration}
   \label{integrate}
 \end{figure}
 
+\subsection{Comparison between analytical and numerical integration} 
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=6in]{./figures/comp}
+  \caption{\footnotesize comparisons between integration methods}
+  \label{comparison}
+\end{figure}
 \subsection{Agent-based Model}
-\section{Comparison}
+An agent-based model has been implemented based on Netlogo open source software, 
+\section{Extension}
 
 \end{document}

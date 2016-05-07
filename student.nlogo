@@ -17,6 +17,7 @@ to go
   if ((count turtles with [hard = 1]) = 0) [stop]
   if ((count turtles with [hard = 0]) = 0) [stop]
   if (ticks mod courselength) = 0 [
+    integration
     math-model
     give-mark
     rethink
@@ -145,6 +146,30 @@ to math-model
   set h_population (population * temp_h_density2)
   set temp_h_density1 temp_h_density2
 end
+
+to integration
+  if (ticks mod courselength) = 0 [
+    let t (ticks / courselength)
+    let math_h_density h_density
+    let h h_density
+    set-current-plot "comparison with analytical and numerical"
+    if ((ticks / courselength) != 0) [
+      set-plot-x-range 0 (ticks / courselength)
+    ]
+    if (ticks != 0) [
+      set math_h_density 1 / (1 + (((1 - h) / h) * e ^ (a * (high - (1 - high)) * t)))
+    ]
+    set-plot-y-range 0 1
+    set-current-plot-pen "analytical_h"
+    plot math_h_density
+    set-current-plot-pen "analytical_l"
+    plot (1 - math_h_density)
+    set-current-plot-pen "numerical_h"
+    plot h_population / population
+    set-current-plot-pen "numerical_l"
+    plot (population - h_population) / population
+  ]
+end
 @#$#@#$#@
 GRAPHICS-WINDOW
 353
@@ -238,7 +263,7 @@ high
 high
 0
 1
-0.6
+1
 0.1
 1
 NIL
@@ -250,7 +275,7 @@ INPUTBOX
 346
 156
 a
-0.5
+0.1
 1
 0
 Number
@@ -268,7 +293,7 @@ population
 0.0
 10.0
 true
-false
+true
 "" ""
 PENS
 "h" 1.0 0 -15040220 true "" ""
@@ -333,7 +358,7 @@ INPUTBOX
 346
 86
 study_course_number
-800
+100
 1
 0
 Number
@@ -369,6 +394,82 @@ RED: lazy student with strategy L\nGREEN: hard work student ith strategy H
 12
 39.9
 1
+
+PLOT
+19
+541
+572
+923
+comparison with analytical and numerical
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+true
+"" ""
+PENS
+"numerical_h" 1.0 0 -8330359 true "" ""
+"numerical_l" 1.0 0 -2139308 true "" ""
+"analytical_h" 1.0 0 -15040220 true "" ""
+"analytical_l" 1.0 0 -8053223 true "" ""
+
+MONITOR
+576
+542
+717
+587
+density of strategy H
+h_density
+17
+1
+11
+
+MONITOR
+576
+641
+717
+686
+strategy H
+high
+17
+1
+11
+
+MONITOR
+576
+741
+716
+786
+variable a
+a
+17
+1
+11
+
+MONITOR
+576
+591
+715
+636
+density of strategy L
+1 - h_density
+17
+1
+11
+
+MONITOR
+576
+691
+716
+736
+strategy L
+1 - high
+17
+1
+11
 
 @#$#@#$#@
 ## WHAT IS IT?
