@@ -17,14 +17,14 @@ to go
   if ((count turtles with [hard = 1]) = 0) [stop]
   if ((count turtles with [hard = 0]) = 0) [stop]
   if (ticks mod courselength) = 0 [
-    integration
-    math-model
+    analytical-integration
+    run numerical-integration-method
     give-mark
     rethink
     ask turtles [ set group random groupnumber ]
   ]
-  tick
   plot-student
+  tick
 end
 
 to give-mark
@@ -68,30 +68,19 @@ to setup-turtles
       ask turtles [ setxy random-xcor random-ycor ]
       ask turtles [ set group random groupnumber ]
 end
-;      ask turtles [
-;        set shape "person"
-;        set hard 0
-;        set strategy 1 - high
-;        set color red
-;        let temp random-float 1
-;        if (temp <= h_density) [
-;          set strategy high
-;          set hard 1
-;          set color green
-;        ]
-;      ]
 
-to-report get-home ;; turtle procedure
+to-report get-home
+  ;; turtle procedure
   ;; calculate the minimum length of each side of our grid
   let side ceiling (sqrt (max [group] of turtles + 1))
 
   report patch
-           ;; compute the x coordinate
-           (round ((world-width / side) * (group mod side)
-             + min-pxcor + int (world-width / (side * 2))))
-           ;; compute the y coordinate
-           (round ((world-height / side) * int (group / side)
-             + min-pycor + int (world-height / (side * 2))))
+  ;; compute the x coordinate
+    (round ((world-width / side) * (group mod side)
+      + min-pxcor + int (world-width / (side * 2))))
+  ;; compute the y coordinate
+    (round ((world-height / side) * int (group / side)
+      + min-pycor + int (world-height / (side * 2))))
 end
 
 to rethink
@@ -123,9 +112,9 @@ to plot-student
     if ((ticks / courselength) != 0) [
       set-plot-x-range 0 (ticks / courselength)
     ]
-    set-current-plot-pen "h"
+    set-current-plot-pen "h_numerical"
     plot count turtles with [hard = 1]
-    set-current-plot-pen "l"
+    set-current-plot-pen "l_numerical"
     plot count turtles with [hard = 0]
     set-current-plot-pen "h_math"
     plot h_population
@@ -138,16 +127,24 @@ to plot-student
   histogram [group] of turtles
 end
 
-to math-model
-  let temp_h_density2 0
-  let slope 0
-  set slope (a * (1 - high - high) * (temp_h_density1 - temp_h_density1 ^ 2))
-  set temp_h_density2 (temp_h_density1 + 1 * slope)
+to Euler-method
+  let slope (a * (1 - high - high) * (temp_h_density1 - temp_h_density1 ^ 2))
+  let temp_h_density2 (temp_h_density1 + 1 * slope)
   set h_population (population * temp_h_density2)
   set temp_h_density1 temp_h_density2
 end
 
-to integration
+to Runge-Kutta-method
+  let k1 (a * (1 - high - high) * (temp_h_density1 - temp_h_density1 ^ 2))
+  let k2 (a * (1 - high - high) * (temp_h_density1 + 0.5 * k1 - (temp_h_density1 + 0.5 * k1) ^ 2))
+  let k3 (a * (1 - high - high) * (temp_h_density1 + 0.5 * k2 - (temp_h_density1 + 0.5 * k2) ^ 2))
+  let k4 (a * (1 - high - high) * (temp_h_density1 + k3 - (temp_h_density1 + k3) ^ 2))
+  let temp_h_density2 temp_h_density1 + 1 / 6 * (k1 + 2 * k2 + 2 * k3 + k4)
+  set h_population (population * temp_h_density2)
+  set temp_h_density1 temp_h_density2
+end
+
+to analytical-integration
   if (ticks mod courselength) = 0 [
     let t (ticks / courselength)
     let math_h_density h_density
@@ -296,8 +293,8 @@ true
 true
 "" ""
 PENS
-"h" 1.0 0 -15040220 true "" ""
-"l" 1.0 0 -8053223 true "" ""
+"h_numerical" 1.0 0 -15040220 true "" ""
+"l_numerical" 1.0 0 -8053223 true "" ""
 "h_math" 1.0 0 -8330359 true "" ""
 "l_math" 1.0 0 -1604481 true "" ""
 
@@ -398,8 +395,8 @@ RED: lazy student with strategy L\nGREEN: hard work student ith strategy H
 PLOT
 19
 541
-572
-923
+433
+798
 comparison with analytical and numerical
 NIL
 NIL
@@ -417,10 +414,10 @@ PENS
 "analytical_l" 1.0 0 -8053223 true "" ""
 
 MONITOR
-576
-542
-717
-587
+437
+588
+578
+633
 density of strategy H
 h_density
 17
@@ -428,10 +425,10 @@ h_density
 11
 
 MONITOR
-576
-641
-717
-686
+438
+637
+579
+682
 strategy H
 high
 17
@@ -439,37 +436,25 @@ high
 11
 
 MONITOR
-576
-741
-716
-786
+439
+685
+579
+730
 variable a
 a
 17
 1
 11
 
-MONITOR
-576
-591
-715
-636
-density of strategy L
-1 - h_density
-17
+CHOOSER
+436
+540
+609
+585
+numerical-integration-method
+numerical-integration-method
+"Euler-method" "Runge-Kutta-method"
 1
-11
-
-MONITOR
-576
-691
-716
-736
-strategy L
-1 - high
-17
-1
-11
 
 @#$#@#$#@
 ## WHAT IS IT?

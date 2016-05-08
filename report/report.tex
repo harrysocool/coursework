@@ -196,7 +196,12 @@ Finally, the differential equation for the problem is obtained as this function 
 \end{equation}
 
 \subsection{Classification}
-
+The differential equation obtained above as equation (5) is a first-order non-linear homogeneous equation.
+\begin{itemize}[nolistsep]
+	\item \textbf{first-order} due to first order derivative.
+	\item \textbf{non-linear} due to $\zeta_{H}^{2}$
+	\item \textbf{homogeneous} due to no term involve only $t$.
+\end{itemize}
 
 \subsection{Analyses System Behavior}
 In order to analyses the stability of the above differential equation, we need to differentiate it based on $\zeta_{H}$ as below:
@@ -209,16 +214,15 @@ In order to analyses the stability of the above differential equation, we need t
 \end{equation}
 Then, we apply the stable state of the $\zeta_{H}$ as $\zeta_{H}^{*} = 0\ and\ 1$ to get the system behavior.
 \begin{equation}
-\begin{split}
-	&\frac{df}{d\zeta_{H}}|_{\zeta_{H}^{*} = 0}=a(L-H)\\
-	due\ to\ a>0,\ & stable\ if\ L<H,\ unstable\ if\ L>H \\
-\end{split}
-\end{equation}
-\begin{equation}
-\begin{split}
-	&\frac{df}{d\zeta_{H}}|_{\zeta_{H}^{*} = 1}=-a(L-H)\\
-	due\ to\ a>0,\ & stable\ if\ L>H,\ unstable\ if\ L<H \\
-\end{split}
+	\begin{split}
+		&\frac{df}{d\zeta_{H}}|_{\zeta_{H}^{*} = 0}=a(L-H)\\
+		&\frac{df}{d\zeta_{H}}|_{\zeta_{H}^{*} = 1}=-a(L-H)\\
+	\end{split}
+	\quad
+	\begin{split}
+		due\ to\ a>0,\ & stable\ if\ L<H,\ unstable\ if\ L>H \\ 
+		due\ to\ a>0,\ & stable\ if\ L>H,\ unstable\ if\ L<H \\
+	\end{split}
 \end{equation}
 Therefore, the behavior of the system depends on the relationship between L and H.
 \begin{equation}
@@ -239,31 +243,28 @@ In this section, we aim to get the solution by integrate the differential equati
 Then we apply integration method on both sides with different conditions to get:
 \vspace{-3mm}
 \begin{equation}
-\begin{split}
-	\int_{\zeta_{0}}^{\zeta} \frac{d\zeta}{\zeta(1-\zeta)} &= \int_{t_{0}}^{t} a(L-H)dt \\
-	\int_{\zeta_{0}}^{\zeta} \frac{(1-\zeta)+\zeta}{\zeta(1-\zeta)}d\zeta & = a(L-H)t \\
-	\int_{\zeta_{0}}^{\zeta} (\frac{1}{\zeta} + \frac{1}{1-\zeta})d\zeta &= a(L-H)t \\
-	ln\frac{\zeta}{\zeta_{0}} + ln\frac{1-\zeta_{0}}{1-\zeta} & = a(L-H)t \\
-	ln\frac{\zeta/(1-\zeta)}{\zeta_{0}/(1-\zeta_{0})} & = a(L-H)t \\
-	\frac{\zeta/(1-\zeta)}{\zeta_{0}/(1-\zeta_{0})} & = e^{a(L-H)t} \\
-	\frac{\zeta}{1-\zeta} & = \frac{\zeta_{0}}{1-\zeta_{0}}e^{a(L-H)t} \\
-\end{split}
+	\begin{split}
+		\int_{\zeta_{0}}^{\zeta} \frac{d\zeta}{\zeta(1-\zeta)} &= \int_{t_{0}}^{t} a(L-H)dt \\
+		\int_{\zeta_{0}}^{\zeta} \frac{(1-\zeta)+\zeta}{\zeta(1-\zeta)}d\zeta & = a(L-H)t \\
+		\int_{\zeta_{0}}^{\zeta} (\frac{1}{\zeta} + \frac{1}{1-\zeta})d\zeta &= a(L-H)t \\
+		ln\frac{\zeta}{\zeta_{0}} + ln\frac{1-\zeta_{0}}{1-\zeta} & = a(L-H)t \\
+		ln\frac{\zeta/(1-\zeta)}{\zeta_{0}/(1-\zeta_{0})} & = a(L-H)t \\
+		\frac{\zeta/(1-\zeta)}{\zeta_{0}/(1-\zeta_{0})} & = e^{a(L-H)t} \\
+		\frac{\zeta}{1-\zeta} & = \frac{\zeta_{0}}{1-\zeta_{0}}e^{a(L-H)t} \\
+	\end{split}
+	\qquad where \qquad
+	\begin{split}
+		\frac{\zeta}{1-\zeta} &= A \\
+		\zeta & = A (1-\zeta) \\
+		\zeta (1+A) & = A \\
+		\zeta & = \frac{A}{1+A} \\
+		\zeta & = \frac{1}{1 + \frac{1}{A}}
+	\end{split}
 \end{equation}
-We replace the RHS in equation (6) as $A$, then the function obtained can be derived as:
-\begin{equation}
-\begin{split}
-	\frac{\zeta}{1-\zeta} &= A \\
-	\zeta & = A (1-\zeta) \\
-	\zeta (1+A) & = A \\
-	\zeta & = \frac{A}{1+A} \\
-	\zeta & = \frac{1}{1 + \frac{1}{A}}
-\end{split}
-\end{equation}
-Then, we substitute the $A$ into equation (7):
+Then, we substitute the $A$ as the left equation's RHS into the right side:
 \begin{equation}
 \begin{split}
 	\zeta &= \frac{1}{1+\frac{1}{\frac{\zeta_{0}}{1-\zeta_{0}}e^{a(L-H)t}}} \\
-	\zeta &= \frac{1}{1+\frac{1-\zeta_{0}}{\zeta_{0}}\frac{1}{e^{a(L-H)t}}} \\
 	\zeta &= \frac{1}{1+\frac{1-\zeta_{0}}{\zeta_{0}}e^{a(H-L)t}}
 \end{split}
 \end{equation}
@@ -271,7 +272,7 @@ Finally, the analytical solution for the differential equation is obtained as ab
 \section{Program Implementation}
 This section described how to use computer code for modeling the specific student problem, two methods were used to design this system. 
 \subsection{Numerical Integration}
-We use both Euler and Runge–Kutta's method to numerically solve the integration. By setting the time of every course to be 1, the Euler's equation can be written as:
+We use both Euler and Runge-Kutta's method to numerically solve the integration. By setting the time of every course to be 1, the Euler's equation can be written as:
 \vspace{-3mm}
 \begin{equation}
 \begin{split}
@@ -279,24 +280,68 @@ We use both Euler and Runge–Kutta's method to numerically solve the integratio
 	\zeta_{H}^{n+1} &=  a(L-H)( \zeta_{H}^{n} - (\zeta_{H}^{n})^{2}) + \zeta_{H}^{n}
 \end{split}
 \end{equation}
-Therefore, the density of $H$ can be iteratively calculated by equation (14) above until it converged into 1 or 0. The essential code for both methods are listed as figure 1 below:
+Therefore, the density of $H$ can be iteratively calculated by equation (12) above until it converged into 1 or 0. The essential code for both methods are written as figure 1 below:
 \begin{figure}[!h]
   \centering
   \includegraphics[width=6in]{./figures/code}
+  \vspace{-3mm}
   \caption{\footnotesize Essential code for numerical integration}
   \label{integrate}
 \end{figure}
-
+\par The second part of the code above representing the 4th-level Runge-Kutta's method for numerical integration to solve this student dynamic systems.
 \subsection{Comparison between analytical and numerical integration} 
-
+As it shown below in figure 2, when using Euler's method there are some slightly error in the middle, however for the Runge–Kutta method it shows perfect match with the analytical integration.
+\par As an evidence for the analyses of system behavior result, the figure below shows even if we changed the initial density for $H$ to be bigger than L, when $H>L$ ,the L will eventually dominate the population. 
 \begin{figure}[!h]
   \centering
   \includegraphics[width=6in]{./figures/comp}
+  \vspace{-1mm}
   \caption{\footnotesize comparisons between integration methods}
   \label{comparison}
 \end{figure}
+\vspace{-3mm}
+
 \subsection{Agent-based Model}
-An agent-based model has been implemented based on Netlogo open source software, 
-\section{Extension}
+An agent-based model has been implemented based on Netlogo open source software to solve the same problem as described in section 1. 
+\begin{itemize}[nolistsep]
+	\item The agent world shown as the black area can display the group and regroup action after each course. 
+	\item Population in each group is randomly distributed based on the groupnumber and the whole population, it is shown as a histogram on the left side.
+\end{itemize}
+
+\begin{figure}[!h]
+\centering
+	\begin{minipage}[t]{0.6\textwidth}
+		\centering
+		\includegraphics[width=1\linewidth]{./figures/agent}
+		\begin{small}
+			\centering
+			\textsf{\footnotesize Figure 2: Agent-based model}
+		\end{small}
+		\label{fig1}
+	\end{minipage}
+	\begin{minipage}[t]{0.25\textwidth}
+		\centering
+		\includegraphics[width=1\linewidth]{./figures/agent-comp}
+		\begin{small}
+			\centering
+			\textsf{\footnotesize Figure 3: Comparison}
+		\end{small}
+		\label{fig2}
+	\end{minipage}
+\end{figure}
+\vspace{-3mm}
+\subsection{Comparison between integration and agent-based model}
+This section describe the comparison of the system behavior between the numerical integration model and agent-based model. As a more accurate method, we use Runge-Kutta’s method for integration.
+
+\section{Answer Research Questions}
+Assume if we have equal numbers of hard working student and lazy student (H density = 0.5), the H = 1, L = 0 and a = 0.5. After 8 courses, the composition of each group will be \textbf{all lazy students} as it shown in figure 3. It will not change if we keep taking courses. Therefore, it takes 8 courses for this condition of the system to reach equilibrium state. 
+\subsection{Evaluate each parameter}
+\begin{itemize}[nolistsep]
+	\item \textbf{Initial composition of the population (H density)}. As it shown in figure 3, if we only increase the population of hard working student in the beginning, it will take longer time to converge.
+	\item \textbf{Group size} 
+\end{itemize}
+
+
+
 
 \end{document}
