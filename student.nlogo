@@ -3,7 +3,9 @@ globals [courselength h_population temp_h_density1]
 to setup
     clear-all
     reset-ticks
+    ;; set the seed of generating random numbers squences, to make it reaptable
     random-seed 641
+    ;; set the courselength to be 20 ticks, more suitable for animation
     set courselength 20
     set h_population (population * h_density)
     set temp_h_density1 h_density
@@ -23,8 +25,8 @@ to go
     rethink
     ask turtles [ set group random groupnumber ]
   ]
-  plot-student
   tick
+  plot-student
 end
 
 to give-mark
@@ -37,6 +39,7 @@ to give-mark
     ]
 end
 
+;; animation for the turtles to form a groups
 to form-group
   ask turtles[
     if hard = 1 [
@@ -69,6 +72,7 @@ to setup-turtles
       ask turtles [ set group random groupnumber ]
 end
 
+;; face the turels to their group location
 to-report get-home
   ;; turtle procedure
   ;; calculate the minimum length of each side of our grid

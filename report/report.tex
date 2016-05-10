@@ -315,7 +315,8 @@ An agent-based model has been implemented based on Netlogo open source software 
 		\includegraphics[width=1\linewidth]{./figures/agent}
 		\begin{small}
 			\centering
-			\textsf{\footnotesize Figure 2: Agent-based model}
+			\vspace{-6mm}
+			\caption{\footnotesize Agent-based model}
 		\end{small}
 		\label{fig1}
 	\end{minipage}
@@ -324,7 +325,8 @@ An agent-based model has been implemented based on Netlogo open source software 
 		\includegraphics[width=1\linewidth]{./figures/agent-comp}
 		\begin{small}
 			\centering
-			\textsf{\footnotesize Figure 3: Comparison}
+			\vspace{-6mm}
+			\caption{\footnotesize Comparison}
 		\end{small}
 		\label{fig2}
 	\end{minipage}
@@ -338,10 +340,18 @@ Assume if we have equal numbers of hard working student and lazy student (H dens
 \subsection{Evaluate each parameter}
 \begin{itemize}[nolistsep]
 	\item \textbf{Initial composition of the population (H density)}. As it shown in figure 3, if we only increase the population of hard working student in the beginning, it will take longer time to converge.
-	\item \textbf{Group size} 
+	\item \textbf{Group size}. The group size is determined by the groupnumber, for the example below, 50 
+	groupnumbers means group size 4. It can be concluded that big group size can lead to quicker convergence. However it does not work when along with small a as shown in figure 4-4 and 4-5.
+		\begin{figure}[!h]
+		\centering
+		\includegraphics[width=6.5in]{./figures/all-comp}
+		\vspace{-6mm}
+		\caption{\footnotesize comparisons between different parameters}
+		\label{comparison}
+		\end{figure}
+		\vspace{-3mm}
+	\item \textbf{Cost of effort a}. Normally, smaller $a$ will cause slower convergence, special condition happen as described later.	
+	\item \textbf{Strategy H and L}. It will determine the final result as analyzed in section 2.3, unless the a and group size fulfill the condition below. 
+	\item \textbf{Small a with small group size}. If small a comes along with small group size it can cause the result to go completely opposite compare to numerical solution (figure 4-4 and 4-6).
 \end{itemize}
-
-
-
-
 \end{document}
